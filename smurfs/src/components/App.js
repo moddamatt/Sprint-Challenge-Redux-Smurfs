@@ -1,19 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
-import SmurfVillage from "./Smurfs";
+import Smurfs from "./Smurfs";
+import SmurfForm from "./SmurfForm"
 import { getSmurfs } from "../actions";
-import { connect } from 'react-redux';
-/*
- to wire this component up you're going to need a few things.
- I'll let you do this part on your own. 
- Just remember, `how do I `connect` my components to redux?`
- `How do I ensure that my component links the state to props?`
- */
-class App extends Component {
-  constructor(props) {
-    super(props);
-  }
+import { connect } from "react-redux";
+import { Route, NavLink } from "react-router-dom";
 
+let name = "";
+let height = null;
+let age = null;
+
+class App extends Component {
   componentDidMount() {
     this.props.getSmurfs();
   }
@@ -31,7 +28,20 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Smurfs smurfs={this.props.smurfs} />
+        <div className="navbar">
+          <h1>Smurf Ville</h1>
+          <NavLink to="/Smurfs">The Village</NavLink>
+          <NavLink to="/smurf-form">Customs</NavLink>
+        </div>
+
+        <Route
+          path="/Smurfs"
+          render={props => <Smurfs smurfs={this.props.smurfs} />}
+        />
+        <Route
+          path="/smurf-form"
+          render={props => <SmurfForm smurfs={this.props.smurfs}/>}
+        />
       </div>
     );
   }
